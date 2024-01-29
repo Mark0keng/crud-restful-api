@@ -68,6 +68,11 @@ const updateUser = async(req, res) => {
         const jsonData = JSON.parse(data)
         const targetId = req.params.id
 
+        const isExist = jsonData?.user?.filter((user) => {
+            return user.id === Number(targetId)
+        })
+        if (isExist.length === 0) return res.status(404).json({message: "User not found!"})
+
         const userData = jsonData?.user?.map((user) => {
             if(user.id === Number(targetId)) {
                 return {
@@ -94,6 +99,11 @@ const deleteUser = async(req, res) => {
         const data = fs.readFileSync(dbPath);
         const jsonData = JSON.parse(data)
         const targetId = req.params.id
+        
+        const isExist = jsonData?.user?.filter((user) => {
+            return user.id === Number(targetId)
+        })
+        if (isExist.length === 0) return res.status(404).json({message: "User not found!"})
 
         const userData = jsonData?.user?.filter((user) => {
             return user.id !== Number(targetId)
